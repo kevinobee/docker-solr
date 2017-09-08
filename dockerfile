@@ -1,4 +1,4 @@
-# Builds the base ASP.NET image for an environment
+# Builds the base Solr image for an environment
 # escape=\
 FROM microsoft/windowsservercore
 
@@ -6,7 +6,7 @@ SHELL ["powershell", "-NoProfile", "-Command", "$ErrorActionPreference = 'Stop';
 
 # Download and install Java - Solr dependency
 RUN Invoke-WebRequest -Method Get -Uri http://javadl.oracle.com/webapps/download/AutoDL?BundleId=210185 -OutFile /jreinstaller.exe ; \
-    Start-Process -filepath C:\jreinstaller.exe -passthru -wait -argumentlist "/s,INSTALLDIR=c:\Java\jre" ; \
+    Start-Process -FilePath C:\jreinstaller.exe -PassThru -wait -ArgumentList "/s,INSTALLDIR=c:\Java\jre" ; \
     del C:\jreinstaller.exe
 
 ENV JAVA_HOME c:\\Java\\jre
