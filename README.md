@@ -22,9 +22,9 @@ Build the Dockerfile and tag the image:
 docker build -t kevinobee/solr -m 4GB .
 ```
 
-To start the Solr container:
+To start the Solr container and get it to listen for traffic on port _8983_ enter the following command:
 ```
-docker run --name my-solr -d kevinobee/solr
+docker run -d --name my-solr -m 4G kevinobee/solr
 ```
 
 To get the IP address of the running container:
@@ -45,6 +45,11 @@ docker stop my-solr
 To remove all stopped containers:
 ```
 docker container prune
+```
+
+To cleanup your Docker environment:
+```
+docker system prune --volumes
 ```
 
 ## Project Build Health

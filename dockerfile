@@ -1,4 +1,4 @@
-# Builds the base Solr image for an environment
+# Builds Solr image for a Windows container environment
 # escape=\
 FROM microsoft/windowsservercore
 
@@ -15,12 +15,18 @@ ENV JAVA_HOME c:\\Java\\jre
 RUN setx PATH '%PATH%;c:\\Java\\jre'
 
 # Download and extract Solr project files
-RUN Invoke-WebRequest -Method Get -Uri http://apache.mirror.anlx.net/lucene/solr/6.6.0/solr-6.6.0.zip -OutFile /solr.zip ; \
-	Expand-Archive -Path /solr.zip -DestinationPath /solr ; \
-	Remove-Item /solr.zip -Force
+RUN Invoke-WebRequest -Method Get -Uri "http://apache.mirror.anlx.net/lucene/solr/6.6.0/solr-6.6.0.zip" -OutFile /solr.zip ; \
+    Expand-Archive -Path /solr.zip -DestinationPath /solr ; \
+    Remove-Item /solr.zip -Force
 
-WORKDIR /solr/solr-6.6.0
+WORKDIR "/solr/solr-6.6.0"
 
 EXPOSE 8983
 
-ENTRYPOINT bin/solr start -port 8983 -f -noprompt -V
+HEALTHCHECK CMD powershell -command \
+    try { \
+        $response = iwr "http://localhost:8983" -UseBasicParsing; \
+        if ($response.StatusCode -eq 200) { return 0} else {return 1}; \
+    } catch { return 1 }
+
+ENTRYPOINT bin/solr start -port 8983 -f -noprompt
