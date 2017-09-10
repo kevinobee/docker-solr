@@ -15,16 +15,27 @@ Solr is the popular, blazing-fast, open source enterprise search platform built 
 Learn more on the [Solr homepage](http://lucene.apache.org/solr/) and in the [Solr Reference Guide](https://www.apache.org/dyn/closer.cgi/lucene/solr/ref-guide/). For more general information refer to the [Apache Solr](wikipedia.org/wiki/Apache_Solr) wikipedia page.
 
 
-## Getting Started
+## Quickstart using Docker Hub
+
+Using the pre-built image from Docker Hub is the fastest way to get Solr up and running on Windows.
+
+To get a Solr instance available on it's default port of _8983_ simply run the following commands:
+```
+docker pull kevinobee/windows-solr
+docker run -d --name my-solr -m 4G kevinobee/windows-solr
+Start-Process ("http://{0}:8983" -f (docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' my-solr))
+```
+
+## Building and running using the Dockerfile
 
 Build the Dockerfile and tag the image:
 ```
-docker build -t kevinobee/solr -m 4GB .
+docker build -t kevinobee/windows-solr -m 4GB .
 ```
 
 To start the Solr container and get it to listen for traffic on port _8983_ enter the following command:
 ```
-docker run -d --name my-solr -m 4G kevinobee/solr
+docker run -d --name my-solr -m 4G kevinobee/windows-solr
 ```
 
 To get the IP address of the running container:
