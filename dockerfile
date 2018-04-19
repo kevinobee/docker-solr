@@ -15,7 +15,7 @@ ENV JAVA_HOME c:\\Java\\jre
 RUN setx PATH '%PATH%;c:\\Java\\jre'
 
 # Download and extract Solr project files
-RUN Invoke-WebRequest -Method Get -Uri "http://mirrors.ukfast.co.uk/sites/ftp.apache.org/lucene/solr/6.6.1/solr-6.6.1.zip" -OutFile /solr.zip ; \
+RUN Invoke-WebRequest -Method Get -Uri "http://archive.apache.org/dist/lucene/solr/6.6.1/solr-6.6.1.zip" -OutFile /solr.zip ; \
     Expand-Archive -Path /solr.zip -DestinationPath /solr ; \
     Remove-Item /solr.zip -Force
 
